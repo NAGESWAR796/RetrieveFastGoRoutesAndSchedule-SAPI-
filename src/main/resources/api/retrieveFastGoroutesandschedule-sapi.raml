@@ -1,0 +1,81 @@
+#%RAML 1.0
+title: RetrieveFastGORoutesAndSchedule-SAPI
+description: This API will fetch the Routes and schedules from FastGo system
+baseUri: https://localhost:8081/
+protocols: [HTTP, HTTPS]
+version: v1
+securitySchemes:
+  OAuth2.0: !include /library/SecuritySchemes/OAuth2.0SecurityScheme.raml
+  BasicAuthentication: !include /library/SecuritySchemes/BasicAuthenticationSecurityScheme.raml
+types:
+  400ResponseDataType: !include /exchange_modules/872c6f8b-530b-4fac-8627-bc1c5081cdf2/httpstatuscodesdatatypes/1.0.0/dataTypes/400ResponseDataType.raml
+  404ResponseDataType: !include /exchange_modules/872c6f8b-530b-4fac-8627-bc1c5081cdf2/httpstatuscodesdatatypes/1.0.0/dataTypes/404ResponseDataType.raml
+  500ResponseDataType: !include /exchange_modules/872c6f8b-530b-4fac-8627-bc1c5081cdf2/httpstatuscodesdatatypes/1.0.0/dataTypes/500ResponseDataType.raml
+
+uses: 
+  common: /library/commonBusinessLibrary.raml
+
+securedBy:
+  - OAuth2.0
+  - BasicAuthentication
+/{transportType}:
+  /{transportCompany}:
+    /routes:
+      get:
+        is:
+          - common.transactionId
+        responses:
+          200:
+            body:
+              application/json:
+                type: common.200ResponseForFastGoRoutsDataTypes     
+                example: !include /library/Routs/examples/200ResponseForFastGoRouts.json          
+          400:
+            body:
+              application/json:
+                type: 400ResponseDataType
+                example: !include /exchange_modules/872c6f8b-530b-4fac-8627-bc1c5081cdf2/httpstatuscodesexamples/1.0.0/examples/400Response-example.json
+          404:
+            body:
+              application/json:
+                type: 404ResponseDataType
+                example: !include /exchange_modules/872c6f8b-530b-4fac-8627-bc1c5081cdf2/httpstatuscodesexamples/1.0.0/examples/404Response-example.json
+          500:
+            body:
+              application/json:
+                type: 500ResponseDataType
+                example: !include /exchange_modules/872c6f8b-530b-4fac-8627-bc1c5081cdf2/httpstatuscodesexamples/1.0.0/examples/500Response-example.json
+                  
+    /schedules:
+      get:
+        is:
+          - common.transactionId
+          - common.departureLocationCode
+          - common.destinationLocationCode
+        responses:
+          200:
+            body:
+              application/json:
+                type: common.200ResponseForFastGoScheduleDataType
+                example: !include /library/schedules/examples/200ResponseForFastGoSchdelesExample.json
+          400:
+            body:
+              application/json:
+                type: 400ResponseDataType
+                example: !include /exchange_modules/872c6f8b-530b-4fac-8627-bc1c5081cdf2/httpstatuscodesexamples/1.0.0/examples/400Response-example.json
+          404:
+            body:
+              application/json:
+                type: 404ResponseDataType
+                example: !include /exchange_modules/872c6f8b-530b-4fac-8627-bc1c5081cdf2/httpstatuscodesexamples/1.0.0/examples/404Response-example.json
+          505:
+            body:
+              application/json:
+                type: 500ResponseDataType
+                example: !include /exchange_modules/872c6f8b-530b-4fac-8627-bc1c5081cdf2/httpstatuscodesexamples/1.0.0/examples/500Response-example.json
+          
+                  
+      
+                  
+                
+              

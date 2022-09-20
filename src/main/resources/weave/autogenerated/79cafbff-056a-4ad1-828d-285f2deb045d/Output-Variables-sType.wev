@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_79cafbff_056a_4ad1_828d_285f2deb045d_Output_Variables_sType = Any
+
